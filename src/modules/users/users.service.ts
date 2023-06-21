@@ -120,6 +120,11 @@ export class UsersService {
         _id: createDto.user_id,
       })
       .select('_id');
+    const existso = await this.userModel
+      .findOne({
+        _id: createDto.user_id,
+      })
+      .select('carted');
     if (!exists) throw new BadRequestException('Invalid user id.');
     await this.userModel.updateOne(
       { _id: exists._id },
@@ -129,6 +134,7 @@ export class UsersService {
             total: createDto.total,
             delivery_method: createDto.delivery_method,
             order_date: createDto.order_date,
+            ordered: existso.carted,
           },
         },
       },

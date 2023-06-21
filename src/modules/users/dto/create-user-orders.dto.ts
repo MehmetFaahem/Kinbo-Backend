@@ -6,6 +6,7 @@ import {
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
+import { CreateCartedProdutsDto } from './create-user-carted.dto';
 
 export class CreateOrdersDto {
   @ApiProperty()
@@ -32,4 +33,8 @@ export class CreateOrdersDto {
   @IsString()
   @IsNotEmpty()
   order_date: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  ordered: CreateCartedProdutsDto;
 }
