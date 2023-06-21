@@ -36,5 +36,5 @@ export class CreateOrdersDto {
 
   @IsArray()
   @IsNotEmpty()
-  ordered: CreateCartedProdutsDto;
+  ordered: CreateCartedProdutsDto[];
 }
