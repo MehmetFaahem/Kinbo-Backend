@@ -5,8 +5,10 @@ import {
   IsNumber,
   IsPhoneNumber,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { CreateCartedProdutsDto } from './create-user-carted.dto';
+import { Type } from 'class-transformer';
 
 export class CreateOrdersDto {
   @ApiProperty()
@@ -34,7 +36,7 @@ export class CreateOrdersDto {
   @IsNotEmpty()
   order_date: string;
 
-  @IsArray()
-  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => CreateCartedProdutsDto)
   ordered: CreateCartedProdutsDto[];
 }
