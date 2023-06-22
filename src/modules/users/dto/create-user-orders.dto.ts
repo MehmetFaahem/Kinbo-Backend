@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsPhoneNumber,
@@ -39,4 +40,9 @@ export class CreateOrdersDto {
   @ValidateNested({ each: true })
   @Type(() => CreateCartedProdutsDto)
   ordered: CreateCartedProdutsDto[];
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsNotEmpty()
+  delivered: boolean;
 }

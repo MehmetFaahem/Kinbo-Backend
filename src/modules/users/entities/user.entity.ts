@@ -57,6 +57,9 @@ export class Orders {
     default: [],
   })
   ordered: CartedProducts[];
+
+  @Prop({ type: Boolean, default: false })
+  delivered: boolean;
 }
 const OrdersSchema = SchemaFactory.createForClass(Orders);
 

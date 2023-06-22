@@ -160,6 +160,24 @@ export class UsersService {
     return exists;
   }
 
+  public async DeliverOrders(id: string) {
+    const exists = await this.userModel.findOne({
+      'orders.order_id': id,
+    });
+    if (!exists) throw new BadRequestException('Invalid user id.');
+    await this.userModel.updateOne(
+      { _id: exists._id },
+      {
+        $set: {
+          orders: {
+            delivered: true,
+          },
+        },
+      },
+    );
+    return exists;
+  }
+
   public async removeCustoms(name: string) {
     const exists = await this.userModel.findOne({
       'customs.product_name': name,
