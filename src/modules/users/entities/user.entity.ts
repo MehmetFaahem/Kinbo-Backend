@@ -50,6 +50,13 @@ export class Orders {
 
   @Prop({ type: String })
   order_date: string;
+
+  @Prop({
+    required: [false, 'ordered should not be empty'],
+    type: [CartedProductsSchema],
+    default: [],
+  })
+  ordered: CartedProducts[];
 }
 const OrdersSchema = SchemaFactory.createForClass(Orders);
 

@@ -134,7 +134,7 @@ export class UsersService {
             total: createDto.total,
             delivery_method: createDto.delivery_method,
             order_date: createDto.order_date,
-            ordered: existso.carted,
+            ordered: createDto.ordered,
           },
         },
       },
@@ -284,6 +284,7 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
+        'orders.ordered',
       ]);
     return users;
   }
