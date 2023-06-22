@@ -284,7 +284,6 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
-        'orders.ordered',
       ]);
     return users;
   }
