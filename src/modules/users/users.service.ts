@@ -134,7 +134,7 @@ export class UsersService {
             total: createDto.total,
             delivery_method: createDto.delivery_method,
             order_date: createDto.order_date,
-            ordered: createDto.ordered,
+            ordered: existso,
           },
         },
       },
