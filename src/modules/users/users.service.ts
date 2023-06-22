@@ -6,7 +6,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, userDocument } from './entities/user.entity';
+import { OrderDocument, User, userDocument } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -18,6 +18,7 @@ import { CloudinaryResponse } from '../../common/cloudinary/cloudinary/cloudinar
 import { CreateUserPrescriptionDto } from './dto/create-user-prescription.dto';
 import { CreateCustomsDto } from './dto/create-user-customs.dto';
 import { CreateOrdersDto } from './dto/create-user-orders.dto';
+import { UpdateOrderDto } from './dto/update-user-orders.dto';
 const streamifier = require('streamifier');
 
 @Injectable()
@@ -160,16 +161,59 @@ export class UsersService {
     return exists;
   }
 
-  public async DeliverOrders(id: string) {
-    const exists = await this.userModel.findOne({
-      'orders.order_id': id,
+  async updateByAdmin(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<userDocument> {
+    const user = await this.userModel
+      .findOne({ _id: id })
+      .select([
+        'name',
+        'phone',
+        'email',
+        'password',
+        'address',
+        'gender',
+        'dateofbirth',
+        'carted',
+        'favourites',
+        'prescriptions',
+        'customs',
+        'orders',
+      ]);
+
+    if (!user) throw new BadRequestException('Invalid ID');
+
+    Object.keys(updateUserDto).forEach((key) => {
+      user[key] = updateUserDto[key];
     });
+
+    await user.save();
+
+    return user;
+  }
+
+  public async DeliverOrders(id: string) {
+    const exists = await this.userModel
+      .findOne({
+        'orders.order_id': id,
+      })
+      .select([
+        'user_id',
+        'total',
+        'delivery_method',
+        'order_id',
+        'order_date',
+        'ordered',
+        'delivered',
+      ]);
     if (!exists) throw new BadRequestException('Invalid user id.');
     await this.userModel.updateOne(
       { _id: exists._id },
       {
         $set: {
           orders: {
+            ...exists,
             delivered: true,
           },
         },
@@ -371,37 +415,37 @@ export class UsersService {
     return user;
   }
 
-  async updateByAdmin(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<userDocument> {
-    const user = await this.userModel
-      .findOne({ _id: id })
-      .select([
-        'name',
-        'phone',
-        'email',
-        'password',
-        'address',
-        'gender',
-        'dateofbirth',
-        'carted',
-        'favourites',
-        'prescriptions',
-        'customs',
-        'orders',
-      ]);
+  // async updateByAdmin(
+  //   id: string,
+  //   updateUserDto: UpdateUserDto,
+  // ): Promise<userDocument> {
+  //   const user = await this.userModel
+  //     .findOne({ _id: id })
+  //     .select([
+  //       'name',
+  //       'phone',
+  //       'email',
+  //       'password',
+  //       'address',
+  //       'gender',
+  //       'dateofbirth',
+  //       'carted',
+  //       'favourites',
+  //       'prescriptions',
+  //       'customs',
+  //       'orders',
+  //     ]);
 
-    if (!user) throw new BadRequestException('Invalid ID');
+  //   if (!user) throw new BadRequestException('Invalid ID');
 
-    Object.keys(updateUserDto).forEach((key) => {
-      user[key] = updateUserDto[key];
-    });
+  //   Object.keys(updateUserDto).forEach((key) => {
+  //     user[key] = updateUserDto[key];
+  //   });
 
-    await user.save();
+  //   await user.save();
 
-    return user;
-  }
+  //   return user;
+  // }
 
   async removeByAdmin(id: string) {
     const user = await this.userModel

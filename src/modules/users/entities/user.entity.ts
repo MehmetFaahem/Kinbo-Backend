@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type userDocument = User & Document;
+export type OrderDocument = Orders & Document;
 
 @Schema()
 export class CartedProducts {
@@ -61,7 +62,7 @@ export class Orders {
   @Prop({ type: Boolean, default: false })
   delivered: boolean;
 }
-const OrdersSchema = SchemaFactory.createForClass(Orders);
+export const OrdersSchema = SchemaFactory.createForClass(Orders);
 
 @Schema()
 export class UserPrescription {

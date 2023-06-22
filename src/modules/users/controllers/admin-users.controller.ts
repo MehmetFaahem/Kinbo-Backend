@@ -28,6 +28,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { imageOptions } from 'src/common/decorator/custom-validation.decorator';
 import { CreateCustomsDto } from '../dto/create-user-customs.dto';
 import { CreateOrdersDto } from '../dto/create-user-orders.dto';
+import { UpdateOrderDto } from '../dto/update-user-orders.dto';
 
 @ApiTags('User')
 @ApiResponse({
@@ -245,7 +246,10 @@ export class AdminUsersController {
   }
 
   @Put('/orders/:id')
-  async deliver(@Param('id') id: string) {
+  async deliver(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ) {
     const user = await this.usersService.DeliverOrders(id);
     return {
       message: 'Delivered Successfully',
