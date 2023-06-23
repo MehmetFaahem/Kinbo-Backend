@@ -6,7 +6,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { OrderDocument, User, userDocument } from './entities/user.entity';
+import { User, userDocument } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -144,9 +144,11 @@ export class UsersService {
   }
 
   public async removeOrders(id: string) {
-    const exists = await this.userModel.findOne({
-      'orders.order_id': id,
-    });
+    const exists = await this.userModel
+      .findOne({
+        'orders.order_id': id,
+      })
+      .select('_id');
     if (!exists) throw new BadRequestException('Invalid user id.');
     await this.userModel.updateOne(
       { _id: exists._id },
@@ -198,22 +200,14 @@ export class UsersService {
       .findOne({
         'orders.order_id': id,
       })
-      .select([
-        'user_id',
-        'total',
-        'delivery_method',
-        'order_id',
-        'order_date',
-        'ordered',
-        'delivered',
-      ]);
+      .select(['_id']);
     if (!exists) throw new BadRequestException('Invalid user id.');
     await this.userModel.updateOne(
       { _id: exists._id },
       {
         $set: {
           orders: {
-            ...exists,
+            ...exists.orders,
             delivered: true,
           },
         },
