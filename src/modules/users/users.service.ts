@@ -136,6 +136,7 @@ export class UsersService {
             delivery_method: createDto.delivery_method,
             order_date: createDto.order_date,
             ordered: existso.carted,
+            delivered: createDto.delivered,
           },
         },
       },
