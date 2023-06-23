@@ -18,7 +18,7 @@ async function bootstrap() {
   app.enableCors({
     allowedHeaders: '*',
     origin: '*',
-    credentials: true,
+    credentials: false,
   });
   const config = configuration.call(this);
   const appVersion = '/api';
