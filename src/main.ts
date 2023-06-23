@@ -12,13 +12,9 @@ import configuration from './config/configuration';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
-  });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
-    allowedHeaders: '*',
     origin: '*',
-    credentials: false,
   });
   const config = configuration.call(this);
   const appVersion = '/api';
