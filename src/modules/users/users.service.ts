@@ -184,6 +184,7 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
+        'discount',
       ]);
 
     if (!user) throw new BadRequestException('Invalid ID');
@@ -378,6 +379,7 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
+        'discount',
       ]);
     return users;
   }
@@ -399,6 +401,7 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
+        'discount',
       ]);
     return users;
   }
@@ -419,6 +422,7 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
+        'discount',
       ]);
 
     if (!user) throw new BadRequestException('Invalid ID');
@@ -441,6 +445,7 @@ export class UsersService {
         'prescriptions',
         'customs',
         'orders',
+        'discount',
       ]);
 
     if (!user) throw new BadRequestException('Invalid ID');

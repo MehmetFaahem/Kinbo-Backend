@@ -151,6 +151,14 @@ export class User {
   gender: string;
 
   @Prop({
+    required: [false, 'disco must not be filled'],
+    type: Number,
+    trim: true,
+    default: 0,
+  })
+  discount: string;
+
+  @Prop({
     required: [false, 'projects should not be empty'],
     type: [CartedProductsSchema],
     default: [],
