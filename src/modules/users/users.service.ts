@@ -137,6 +137,7 @@ export class UsersService {
             order_date: createDto.order_date,
             ordered: existso.carted,
             delivered: createDto.delivered,
+            order_id: createDto.order_id,
           },
         },
       },
@@ -230,7 +231,7 @@ export class UsersService {
           orders: [
             ...exists.orders.filter(({ order_id }) => order_id !== id),
             {
-              order_id: updateDto.order_id,
+              order_id: Date.now(),
               ordered: ordered_products,
               total: updateDto.total,
               delivered: true,
