@@ -9,6 +9,8 @@
   "headers": [
     {
       "source": "/(.*)",
+      "dest": "src/main.ts",
+      "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "false" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
