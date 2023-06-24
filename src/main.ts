@@ -14,7 +14,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
-    origin: '*',
+    origin: '*', // This might need to be changed into some specific values, rather than all
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   });
   const config = configuration.call(this);
   const appVersion = '/api';
