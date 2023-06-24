@@ -250,7 +250,7 @@ export class AdminUsersController {
     @Param('id') id: string,
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
-    const user = await this.usersService.DeliverOrders(id);
+    const user = await this.usersService.DeliverOrders(id, updateOrderDto);
     return {
       message: 'Delivered Successfully',
       data: user,

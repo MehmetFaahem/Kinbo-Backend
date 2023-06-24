@@ -196,25 +196,61 @@ export class UsersService {
     return user;
   }
 
-  public async DeliverOrders(id: string) {
+  public async DeliverOrders(id: string, updateDto: UpdateOrderDto) {
     const exists = await this.userModel
       .findOne({
         'orders.order_id': id,
       })
-      .select(['_id']);
+      .select([
+        '_id',
+        'name',
+        'phone',
+        'email',
+        'password',
+        'address',
+        'gender',
+        'dateofbirth',
+        'carted',
+        'favourites',
+        'prescriptions',
+        'customs',
+        'orders',
+      ]);
+
+    const ordered_products = await exists.orders.find(
+      ({ order_id }) => order_id == id,
+    ).ordered;
+
     if (!exists) throw new BadRequestException('Invalid user id.');
+
     await this.userModel.updateOne(
       { _id: exists._id },
       {
         $set: {
-          orders: {
-            ...exists.orders,
-            delivered: true,
-          },
+          orders: [
+            ...exists.orders.filter(({ order_id }) => order_id !== id),
+            {
+              order_id: updateDto.order_id,
+              ordered: ordered_products,
+              total: updateDto.total,
+              delivered: true,
+              order_date: updateDto.order_date,
+              delivery_method: updateDto.delivery_method,
+            },
+          ],
         },
       },
     );
+    await exists.save();
     return exists;
+
+    // Object.keys(updateDto).forEach((key) => {
+    //   exists[key] = updateDto[key];
+    // });
+
+    // await exists.save();
+
+    // return exists;
   }
 
   public async removeCustoms(name: string) {
