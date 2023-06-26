@@ -131,6 +131,7 @@ export class UsersService {
       { _id: exists._id },
       {
         $addToSet: {
+          carted: [],
           orders: {
             total: createDto.total,
             delivery_method: createDto.delivery_method,
