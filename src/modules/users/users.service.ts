@@ -130,8 +130,10 @@ export class UsersService {
     await this.userModel.updateOne(
       { _id: exists._id },
       {
-        $addToSet: {
+        $set: {
           carted: [],
+        },
+        $addToSet: {
           orders: {
             total: createDto.total,
             delivery_method: createDto.delivery_method,
