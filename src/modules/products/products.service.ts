@@ -81,17 +81,15 @@ export class ProductsService {
     id: string,
     updateProductDto: UpdateProductDto,
   ): Promise<productDocument> {
-    const user = await this.productModel
-      .findOne({ _id: id })
-      .select([
-        'product_name',
-        'company_name',
-        'category',
-        'price',
-        'indication',
-        'pharmacology',
-        'image',
-      ]);
+    const user = await this.productModel.findOne({ _id: id }).select([
+      'product_name',
+      'company_name',
+      'category',
+      'price',
+      'indication',
+      'pharmacology',
+      // 'image',
+    ]);
 
     if (!user) throw new BadRequestException('Invalid ID');
 
