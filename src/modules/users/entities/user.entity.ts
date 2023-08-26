@@ -67,6 +67,9 @@ const OrdersSchema = SchemaFactory.createForClass(Orders);
 @Schema()
 export class UserPrescription {
   @Prop({ type: String })
+  user_id: string;
+
+  @Prop({ type: String })
   image: string;
 
   @Prop({ type: Boolean, default: false })
