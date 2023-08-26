@@ -58,9 +58,9 @@ export class UsersService {
               $addToSet: {
                 prescriptions: {
                   image: result.url,
-                  // delivered: createDto.delivered,
-                  // order_date: createDto.order_date,
-                  // order_id: Date.now(),
+                  delivered: createDto.delivered,
+                  order_date: createDto.order_date,
+                  order_id: Date.now(),
                 },
               },
             },
