@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserPrescriptionDto {
   @ApiProperty()
@@ -7,8 +7,22 @@ export class CreateUserPrescriptionDto {
   @IsNotEmpty()
   user_id: string;
 
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  order_id: string;
+
   @ApiProperty({ type: 'string', format: 'binary' })
   @IsOptional()
   @IsNotEmpty()
   image: Express.Multer.File;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsNotEmpty()
+  delivered: boolean;
+
+  @ApiProperty()
+  @IsString()
+  order_date: string;
 }

@@ -19,6 +19,7 @@ import { CreateUserPrescriptionDto } from './dto/create-user-prescription.dto';
 import { CreateCustomsDto } from './dto/create-user-customs.dto';
 import { CreateOrdersDto } from './dto/create-user-orders.dto';
 import { UpdateOrderDto } from './dto/update-user-orders.dto';
+import { UpdatePresOrderDto } from './dto/update-user-preorders.dto';
 const streamifier = require('streamifier');
 
 @Injectable()
@@ -57,6 +58,9 @@ export class UsersService {
               $addToSet: {
                 prescriptions: {
                   image: result.url,
+                  delivered: createDto.delivered,
+                  order_date: createDto.order_date,
+                  order_id: createDto.order_id,
                 },
               },
             },
@@ -241,6 +245,57 @@ export class UsersService {
               delivered: true,
               order_date: updateDto.order_date,
               delivery_method: updateDto.delivery_method,
+            },
+          ],
+        },
+      },
+    );
+    await exists.save();
+    return exists;
+
+    // Object.keys(updateDto).forEach((key) => {
+    //   exists[key] = updateDto[key];
+    // });
+
+    // await exists.save();
+
+    // return exists;
+  }
+
+  public async DeliverPresOrders(id: string, updateDto: UpdatePresOrderDto) {
+    const exists = await this.userModel
+      .findOne({
+        prescriptions_id: id,
+      })
+      .select([
+        '_id',
+        'name',
+        'phone',
+        'email',
+        'password',
+        'address',
+        'gender',
+        'dateofbirth',
+        'carted',
+        'favourites',
+        'prescriptions',
+        'customs',
+        'orders',
+      ]);
+
+    if (!exists) throw new BadRequestException('Invalid user id.');
+
+    await this.userModel.updateOne(
+      { _id: exists._id },
+      {
+        $set: {
+          prescriptions: [
+            ...exists.prescriptions.filter(({ order_id }) => order_id !== id),
+            {
+              order_id: updateDto.order_id,
+              delivered: true,
+              order_date: updateDto.order_date,
+              image: updateDto.image,
             },
           ],
         },

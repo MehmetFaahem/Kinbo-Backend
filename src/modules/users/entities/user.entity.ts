@@ -68,6 +68,19 @@ const OrdersSchema = SchemaFactory.createForClass(Orders);
 export class UserPrescription {
   @Prop({ type: String })
   image: string;
+
+  @Prop({ type: Boolean, default: false })
+  delivered: boolean;
+
+  @Prop({
+    type: String,
+    default: Date.now(),
+    required: [false, 'date must be filled'],
+  })
+  order_date: string;
+
+  @Prop({ type: String, default: Date.now() })
+  order_id: string;
 }
 const UserPrescriptionSchema = SchemaFactory.createForClass(UserPrescription);
 
