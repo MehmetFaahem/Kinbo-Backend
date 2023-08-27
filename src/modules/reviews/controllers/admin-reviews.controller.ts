@@ -13,11 +13,11 @@ import { CreateReviewDto } from '../dto/create-review.dto';
 import { UpdateReviewDto } from '../dto/update-review.dto';
 import { ApiBody } from '@nestjs/swagger';
 
-@Controller('reviews')
+@Controller('default')
 export class AdminReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
-  @Post('/')
+  @Post('/upload')
   @ApiBody({ type: CreateReviewDto })
   async create(@Body() createReviewDto: CreateReviewDto) {
     const review = await this.reviewsService.create(createReviewDto);

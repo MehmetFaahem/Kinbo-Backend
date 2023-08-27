@@ -4,22 +4,15 @@ export type reviewDocument = Review & Document;
 
 @Schema({
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-  collection: 'reviews',
+  collection: 'default_image',
 })
 export class Review {
   @Prop({
-    required: [true, 'quality must be provided'],
+    required: [true, 'image must be provided'],
     type: String,
     trim: true,
   })
-  quality: string;
-
-  @Prop({
-    required: [true, 'description must be provided'],
-    type: String,
-    trim: true,
-  })
-  description: string;
+  image: string;
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);

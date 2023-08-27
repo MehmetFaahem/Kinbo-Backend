@@ -20,21 +20,21 @@ export class ReviewsService {
   async findAllByAdmin() {
     const review = await this.ReviewModel.find({})
       .sort({ created_at: -1 })
-      .select(['quality', 'description']);
+      .select(['image']);
     return review;
   }
 
   async findAllByPublic() {
     const review = await this.ReviewModel.find({})
       .sort({ created_at: -1 })
-      .select(['quality', 'description']);
+      .select(['image']);
     return review;
   }
 
   async findOneByAdmin(id: string) {
     const review = await this.ReviewModel.findOne({ _id: id })
       .sort({ created_at: -1 })
-      .select(['quality', 'description']);
+      .select(['image']);
     if (!review) throw new BadRequestException('Invalid ID');
     return review;
   }
@@ -42,7 +42,7 @@ export class ReviewsService {
   async findOneByPublic(id: string) {
     const review = await this.ReviewModel.findOne({ _id: id })
       .sort({ created_at: -1 })
-      .select(['quality', 'description']);
+      .select(['image']);
     if (!review) throw new BadRequestException('Invalid ID');
     return review;
   }
@@ -53,7 +53,7 @@ export class ReviewsService {
   ): Promise<reviewDocument> {
     const review = await this.ReviewModel.findOne({ _id: id })
       .sort({ created_at: -1 })
-      .select(['quality', 'description']);
+      .select(['image']);
 
     if (!review) throw new BadRequestException('Invalid ID');
     Object.keys(updateReviewDto).forEach((key) => {

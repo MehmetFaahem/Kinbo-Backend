@@ -21,17 +21,12 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @ApiOperation({ summary: 'Create Product' })
-  @ApiConsumes('multipart/form-data')
   @Post('/')
   @ApiBody({
     type: CreateProductDto,
   })
-  @UseInterceptors(FileInterceptor('image', { limits: { fileSize: 20000000 } }))
-  async create(
-    @UploadedFile() image: Express.Multer.File,
-    @Body() createProductDto: CreateProductDto,
-  ) {
-    const user = await this.productsService.create(image, createProductDto);
+  async create(@Body() createProductDto: CreateProductDto) {
+    const user = await this.productsService.create(createProductDto);
     return {
       message: 'Product Created Successfully',
       data: user,

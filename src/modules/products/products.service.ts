@@ -15,31 +15,34 @@ export class ProductsService {
     private productModel: Model<productDocument>,
   ) {}
 
-  public async create(
-    file: Express.Multer.File,
-    createProductDto: CreateProductDto,
-  ) {
-    if (file) {
-      return new Promise<CloudinaryResponse>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          async (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-            const review = await this.productModel.create({
-              ...createProductDto,
-              image: result.url,
-            });
-            await review.save();
-          },
-        );
+  // public async create(createProductDto: CreateProductDto) {
+  //   // if (file) {
+  //   //   return new Promise<CloudinaryResponse>((resolve, reject) => {
+  //   //     const uploadStream = cloudinary.uploader.upload_stream(
+  //   //       async (error, result) => {
+  //   //         if (error) return reject(error);
+  //   //         resolve(result);
+  //   //         const review = await this.productModel.create({
+  //   //           ...createProductDto,
+  //   //           image: result.url,
+  //   //         });
+  //   //         await review.save();
+  //   //       },
+  //   //     );
 
-        streamifier.createReadStream(file.buffer).pipe(uploadStream);
-      });
-    }
+  //   //     streamifier.createReadStream(file.buffer).pipe(uploadStream);
+  //   //   });
+  //   // }
 
-    const review = await this.productModel.create({
-      ...createProductDto,
-    });
+  //   const review = await this.productModel.create({
+  //     ...createProductDto,
+  //   });
+  //   await review.save();
+  //   return review;
+  // }
+
+  public async create(createReviewDto: CreateProductDto) {
+    const review = await this.productModel.create({ ...createReviewDto });
     await review.save();
     return review;
   }

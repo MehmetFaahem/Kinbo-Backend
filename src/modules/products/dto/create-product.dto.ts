@@ -38,8 +38,8 @@ export class CreateProductDto {
   @IsNotEmpty()
   pharmacology: string;
 
-  @ApiProperty({ type: 'string', format: 'binary' })
+  @ApiProperty()
   @IsOptional()
   @IsNotEmpty()
-  image: Express.Multer.File;
+  image: string;
 }
