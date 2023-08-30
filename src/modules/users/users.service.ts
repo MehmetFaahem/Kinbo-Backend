@@ -59,7 +59,7 @@ export class UsersService {
                 prescriptions: {
                   user_id: exists._id,
                   image: result.url,
-                  delivered: createDto.delivered,
+                  delivered: false,
                   order_date: createDto.order_date,
                   order_id: Date.now(),
                 },
