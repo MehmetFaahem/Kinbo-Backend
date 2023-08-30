@@ -76,7 +76,7 @@ export class UsersService {
   public async removePresOrders(id: string) {
     const exists = await this.userModel
       .findOne({
-        'prescriptions.order_id': id,
+        'prescriptions._id': id,
       })
       .select('_id');
     if (!exists) throw new BadRequestException('Invalid user id.');
@@ -85,7 +85,7 @@ export class UsersService {
       {
         $pull: {
           prescriptions: {
-            order_id: id,
+            _id: id,
           },
         },
       },
