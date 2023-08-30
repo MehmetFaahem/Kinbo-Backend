@@ -29,6 +29,7 @@ import { imageOptions } from 'src/common/decorator/custom-validation.decorator';
 import { CreateCustomsDto } from '../dto/create-user-customs.dto';
 import { CreateOrdersDto } from '../dto/create-user-orders.dto';
 import { UpdateOrderDto } from '../dto/update-user-orders.dto';
+import { UpdatePresOrderDto } from '../dto/update-user-preorders.dto';
 
 @ApiTags('User')
 @ApiResponse({
@@ -173,6 +174,20 @@ export class AdminUsersController {
     };
   }
 
+  @ApiOperation({ summary: 'Remove ordered Produts' })
+  @ApiResponse({
+    status: 201,
+    description: 'product has been successfully removed',
+  })
+  @Delete('/prescrip/:id')
+  async removePresOrders(@Param('id') id: string) {
+    const ourService = await this.usersService.removePresOrders(id);
+    return {
+      message: 'removed successfully',
+      data: ourService,
+    };
+  }
+
   @ApiOperation({ summary: 'Add Favourite Produts' })
   @ApiBody({
     type: CreateFavouriteDto,
@@ -251,6 +266,18 @@ export class AdminUsersController {
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
     const user = await this.usersService.DeliverOrders(id, updateOrderDto);
+    return {
+      message: 'Delivered Successfully',
+      data: user,
+    };
+  }
+
+  @Put('/prescrip/:id')
+  async deliverpres(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdatePresOrderDto,
+  ) {
+    const user = await this.usersService.DeliverPresOrders(id, updateOrderDto);
     return {
       message: 'Delivered Successfully',
       data: user,
