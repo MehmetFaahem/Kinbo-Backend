@@ -73,6 +73,26 @@ export class UsersService {
     });
   }
 
+  public async removePresOrders(id: string) {
+    const exists = await this.userModel
+      .findOne({
+        'prescriptions.order_id': id,
+      })
+      .select('_id');
+    if (!exists) throw new BadRequestException('Invalid user id.');
+    await this.userModel.updateOne(
+      { _id: exists._id },
+      {
+        $pull: {
+          prescriptions: {
+            order_id: id,
+          },
+        },
+      },
+    );
+    return exists;
+  }
+
   public async addCartedProducts(createDto: CreateCartedProdutsDto) {
     const exists = await this.userModel
       .findOne({
@@ -266,7 +286,7 @@ export class UsersService {
   public async DeliverPresOrders(id: string, updateDto: UpdatePresOrderDto) {
     const exists = await this.userModel
       .findOne({
-        prescriptions_id: id,
+        'prescriptions.order_id': id,
       })
       .select([
         '_id',
